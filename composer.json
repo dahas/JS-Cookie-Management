@@ -1,6 +1,6 @@
 {
   "name": "dahas/cookie_management",
-  "description": "Easy cookie handling",
+  "description": "Easy cookie handling.",
   "require": {
     "components/jquery": "^3.1"
   },
