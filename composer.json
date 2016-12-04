@@ -1,7 +1,7 @@
 {
     "name": "dahas/cookie_management",
     "description": "Easy cookie handling",
-    "type": "script",
+    "minimum-stability": "dev",
     "require": {
         "components/jquery": "^3.1"
     },
