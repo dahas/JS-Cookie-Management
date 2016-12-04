@@ -32,7 +32,7 @@ Cookie = function (cName, xDays, path)
 /**
  * Add a parameter or overwrite its value. If the cookie doesn´t exist, it will be created.
  * @param cParam    Name of the parameter
- * @param pValue    Value of the parameter
+ * @param pValue    Value of the parameter 
  */
 Cookie.prototype.set = function (cParam, pValue)
 {
