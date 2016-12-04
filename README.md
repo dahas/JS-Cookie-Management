@@ -21,3 +21,7 @@ A script to easily handle cookies.
 <pre>Cookie.clear(parameter);</pre> 
 - Remove the cookie:
 <pre>Cookie.remove();</pre>
+
+## License
+
+MIT
