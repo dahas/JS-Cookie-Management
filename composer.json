@@ -1,5 +1,6 @@
 {
     "name": "dahas/cookie_management",
+    "version": "v1.0.0",
     "description": "Easy cookie handling",
     "minimum-stability": "dev",
     "require": {
