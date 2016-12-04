@@ -17,51 +17,57 @@ var Cookie = {};
 
 /**
  * Setting some defaults.
+ * @param cName     Name of the cookie
+ * @param xDays     Days until cookie expires (optional)
+ * @param path      Path (optional)
  */
-Cookie = function ()
+Cookie = function (cName, xDays, path)
 {
-    this.xDays = 0;
-    this.defPath = "/";
+    this.cName = cName;
+    this.xDays = xDays ? xDays : 0;
+    this.path = path ? path : "/";
 };
 
 
 /**
- * Add a parameter and its value. If the cookie doesn´t exist, it will be created.
- * @param cName     Name of the cookie
+ * Add a parameter or overwrite its value. If the cookie doesn´t exist, it will be created.
  * @param cParam    Name of the parameter
  * @param pValue    Value of the parameter
- * @param xDays     Days until cookie expires
- * @param path      Path
  */
-Cookie.prototype.set = function (cName, cParam, pValue, xDays, path)
+Cookie.prototype.set = function (cParam, pValue)
 {
-    var valObj = {};
-    valObj[cParam] = pValue;
-    var curVal = this.get(cName) ? JSON.parse(this.get(cName)) : null;
-    var newVal = curVal ? $.extend(curVal, valObj) : valObj;
-    var newCookieVal = JSON.stringify(newVal);
+    if (pValue) {
+        var valObj = {};
+        valObj[cParam] = pValue;
+        var curVal = this.get() ? JSON.parse(this.get()) : null;
+        var newVal = curVal ? $.extend(curVal, valObj) : valObj;
+        var newCookieVal = JSON.stringify(newVal);
 
-    var e = xDays ? xDays : this.xDays;
-    var p = path ? path : this.defPath;
-    var date = new Date();
-    var expires = "";
-    if(e) {
-        date.setTime(date.getTime() + (e * 24 * 60 * 60 * 1000));
-        expires = "expires=" + date.toUTCString();
+        var expires = "";
+        if(this.xDays) {
+            var date = new Date();
+            date.setTime(date.getTime() + (this.xDays * 24 * 60 * 60 * 1000));
+            expires = ";expires=" + date.toUTCString();
+        }
+
+        var path = "";
+        if(this.path) {
+            path = ";path=" + this.path;
+        }
+
+        document.cookie = this.cName + "=" + newCookieVal + expires + path;
     }
-    document.cookie = cName + "=" + newCookieVal + ";" + expires + ";path=" + p;
 };
 
 
 /**
  * Get a cookie value
- * @param cName
  * @param cParam
  * @returns {*}
  */
-Cookie.prototype.get = function (cName, cParam)
+Cookie.prototype.get = function (cParam)
 {
-    var name = cName + "=";
+    var name = this.cName + "=";
     var cookies = document.cookie.split(';');
     for (var i = 0; i < cookies.length; i++) {
         var c = cookies[i];
@@ -83,36 +89,40 @@ Cookie.prototype.get = function (cName, cParam)
 
 /**
  * Delete a single parameter of the cookie
- * @param cName
  * @param cParam
- * @param xDays
- * @param path
  */
-Cookie.prototype.deleteParam = function (cName, cParam, xDays, path)
+Cookie.prototype.clear = function (cParam)
 {
-    if (this.get(cName)) {
-        var curVal = JSON.parse(this.get(cName));
+    if (this.get()) {
+        var curVal = JSON.parse(this.get());
         delete curVal[cParam];
-        var newCookieVal = JSON.stringify(curVal);
+        if ($.isEmptyObject(curVal)) {
+            this.remove();
+        } else {
+            var newCookieVal = JSON.stringify(curVal);
 
-        var e = xDays ? xDays : this.xDays;
-        var p = path ? path : this.defPath;
-        var date = new Date();
-        var expires = "";
-        if(e) {
-            date.setTime(date.getTime() + (e * 24 * 60 * 60 * 1000));
-            expires = "expires=" + date.toUTCString();
+            var expires = "";
+            if(this.xDays) {
+                var date = new Date();
+                date.setTime(date.getTime() + (this.xDays * 24 * 60 * 60 * 1000));
+                expires = ";expires=" + date.toUTCString();
+            }
+
+            var path = "";
+            if(this.path) {
+                path = ";path=" + this.path;
+            }
+
+            document.cookie = this.cName + "=" + newCookieVal + expires + path; 
         }
-        document.cookie = cName + "=" + newCookieVal + ";" + expires + ";path=" + p;
     }
 };
 
 
 /**
  * Remove the cookie
- * @param cName
  */
-Cookie.prototype.delete = function (cName)
+Cookie.prototype.remove = function ()
 {
-    document.cookie = cName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = this.cName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 };
