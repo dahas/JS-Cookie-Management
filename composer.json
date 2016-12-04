@@ -1,6 +1,6 @@
 {
     "name": "dahas/cookie_management",
-    "version": "v1.0.0",
+    "version": "dev-master",
     "description": "Easy cookie handling",
     "require": {
         "components/jquery": "^3.1"
