@@ -1,6 +1,8 @@
 
 # Cookie Management
 
+A script to easily handle cookies.
+
 ## Requirements
 
 - jQuery
