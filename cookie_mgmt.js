@@ -36,7 +36,7 @@ Cookie = function (cName, xDays, path)
  */
 Cookie.prototype.set = function (cParam, pValue)
 {
-    if (pValue) {
+    if (typeof pValue != "undefined" && pValue !== null) {
         var valObj = {};
         valObj[cParam] = pValue;
         var curVal = this.get() ? JSON.parse(this.get()) : null;
