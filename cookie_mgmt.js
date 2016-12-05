@@ -1,7 +1,8 @@
 
 /*************************************************************************
  *
- * Cookie Management.
+ * Cookie Management
+ * v1.0.1
  * Created by Martin J. Wolf
  * Requires: jQuery
  * License: MIT
