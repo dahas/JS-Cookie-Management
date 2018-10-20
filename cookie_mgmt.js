@@ -1,8 +1,7 @@
 
 /*************************************************************************
  *
- * Cookie Management
- * v1.0.1
+ * Cookie Management.
  * Created by Martin J. Wolf
  * Requires: jQuery
  * License: MIT
@@ -42,7 +41,7 @@ Cookie.prototype.set = function (cParam, pValue)
         valObj[cParam] = pValue;
         var curVal = this.get() ? JSON.parse(this.get()) : null;
         var newVal = curVal ? $.extend(curVal, valObj) : valObj;
-        var newCookieVal = JSON.stringify(newVal);
+        var newCookieVal = btoa(JSON.stringify(newVal));
 
         var expires = "";
         if(this.xDays) {
@@ -77,10 +76,10 @@ Cookie.prototype.get = function (cParam)
         }
         if (c.indexOf(name) == 0) {
             if (cParam) {
-                var cValue = JSON.parse(c.substring(name.length, c.length));
+                var cValue = JSON.parse(atob(c.substring(name.length, c.length)));
                 return cValue[cParam];
             } else {
-                return c.substring(name.length, c.length);
+                return atob(c.substring(name.length, c.length));
             }
         }
     }
